@@ -7,5 +7,6 @@ json.copyright do
   json.image_file_size @copyright.image_file_size
   json.image_updated_at @copyright.image_updated_at
   json.date @copyright.date
-  json.type @copyright.type
+  json.type_of_file @copyright.type_of_file
+  json.user_id @copyright.user_id
 end
