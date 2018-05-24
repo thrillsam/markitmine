@@ -14,9 +14,11 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
 
   def upload_image
     # params[:copyright] = params
-    @copyright = Copyright.new(name: params[:name], image: params[:image])
+    @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id], type_of_file: params[:type])
+    # binding.pry
+    # image = Paperclip.io_adapters.for(params[:image])
     @copyright.date = Date.today
-    @copyright.type = "image"
+    # @copyright.type = "image"
     # respond_to do |format|
       if @copyright.save
         # format.json {render json: {message: ''}, status: 200}
@@ -26,6 +28,19 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
       end
     # end
 
+  end
+
+  def all_images
+    if params[:user_id].present?
+      @copyrights = Copyright.where(user_id: params[:user_id])
+      if @copyrights.present?
+        render template: '/api/v1/photos/all_images.jbuilder', status: 200
+      else
+        render json: {errors: "No images found"}, status: 704
+      end
+    else
+      render json: {errors: "User not found"}, status: 422
+    end
   end
 
   def facebook
