@@ -55,3 +55,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "paperclip"
 gem 'markitmine_api', path: 'markitmine_api'
 gem "responders"
+gem 'devise'
