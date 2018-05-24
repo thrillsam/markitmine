@@ -1,6 +1,7 @@
 class CopyrightsController < ApplicationController
   before_action :set_copyright, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!
 
   # GET /copyrights
   # GET /copyrights.json
@@ -27,7 +28,6 @@ class CopyrightsController < ApplicationController
   def create
     params[:copyright] = params
     @copyright = Copyright.new(copyright_params)
-
     respond_to do |format|
       if @copyright.save
         format.html { redirect_to @copyright, notice: 'Copyright was successfully created.' }
