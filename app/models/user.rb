@@ -4,12 +4,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+   has_many :copyrights
+   
     def self.authenticate(email, password)
-	  user = find_by_email(email)
-	  if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.encrypted_password)
-	    user
-	  else
-	    nil
-	  end
-	end
+  	  user = find_by_email(email)
+  	  if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.encrypted_password)
+  	    user
+  	  else
+  	    nil
+  	  end
+	   end
+
+
 end
