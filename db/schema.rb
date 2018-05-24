@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< Updated upstream
 ActiveRecord::Schema.define(version: 20180524151054) do
+=======
+ActiveRecord::Schema.define(version: 20180524134218) do
+>>>>>>> Stashed changes
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +29,7 @@ ActiveRecord::Schema.define(version: 20180524151054) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.datetime "date"
+<<<<<<< Updated upstream
     t.string "type_of_file"
     t.index ["user_id"], name: "index_copyrights_on_user_id"
     t.string "photo_url"
@@ -36,6 +41,10 @@ ActiveRecord::Schema.define(version: 20180524151054) do
     t.string "uploaded_id"
     t.integer "likes_count"
     t.string "tags"
+=======
+    t.string "photo_url"
+    t.string "type"
+>>>>>>> Stashed changes
     t.index ["user_id"], name: "index_copyrights_on_user_id"
   end
 

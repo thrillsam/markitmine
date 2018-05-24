@@ -22,77 +22,96 @@
     </ul>
 
     <!-- link that opens popup -->
-    <a class="popup-with-form icon icon-bag" href="#test-form">$</a>
-    </div>
+    <a class="popup-with-form icon icon-bag" href="#test-form">
 
-    <!-- form itself -->
-    <div id="test-form" >
-      <div class="container">
-        <div class="frame">
-          <div class="nav">
-            <ul class"links"="class"links"">
-              <li class="signin-active">
-                <a class="btn">Sign in</a>
-              </li>
-              <li class="signup-inactive">
-                <a class="btn">Sign up
-                </a>
-              </li>
-            </ul>
+          <span class="profile_img"><img class="user-cardimg-placeholder user-profile-image image-small"></span>
+
+  </a>
+
+      <div id="test-form" class=" form white-popup-block mfp-hide">
+
+  <ul class="tab-group">
+    <li class="tab active"><a href="#signup">Sign Up</a></li>
+    <li class="tab"><a href="#login">Log In</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="signup">
+      <h1>Sign Up for Free</h1>
+
+      <form action="/" method="post">
+
+        <div class="top-row">
+          <div class="field-wrap">
+            <label>
+                First Name<span class="req">*</span>
+              </label>
+            <input type="text" required autocomplete="off" />
           </div>
-          <div ng-app="ng-app" ng-init="checked = false">
-            <form class="form-signin" action="" method="post" name="form">
-              <label for="username">Username</label>
-              <input class="form-styling" type="text" name="username" placeholder=""/>
-              <label for="password">Password</label>
-              <input class="form-styling" type="text" name="password" placeholder=""/>
-              <input type="checkbox" id="checkbox"/>
-              <label for="checkbox">
-                <span class="ui"></span>Keep me signed in</label>
-              <div class="btn-animate">
-                <a class="btn-signin">Sign in</a>
-              </div>
-            </form>
 
-            <form class="form-signup" action="" method="post" name="form">
-              <label for="fullname">Full name</label>
-              <input class="form-styling" type="text" name="fullname" placeholder=""/>
-              <label for="email">Email</label>
-              <input class="form-styling" type="text" name="email" placeholder=""/>
-              <label for="password">Password</label>
-              <input class="form-styling" type="text" name="password" placeholder=""/>
-              <label for="confirmpassword">Confirm password</label>
-              <input class="form-styling" type="text" name="confirmpassword" placeholder=""/>
-              <a ng-click="checked = !checked" class="btn-signup">Sign Up</a>
-            </form>
-
-            <div class="success">
-              <svg width="270" height="270" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 60 60" id="check" ng-class="checked ? 'checked' : ''">
-                <path
-                  fill="#ffffff"
-                  d="M40.61,23.03L26.67,36.97L13.495,23.788c-1.146-1.147-1.359-2.936-0.504-4.314
-                        c3.894-6.28,11.169-10.243,19.283-9.348c9.258,1.021,16.694,8.542,17.622,17.81c1.232,12.295-8.683,22.607-20.849,22.042
-                        c-9.9-0.46-18.128-8.344-18.972-18.218c-0.292-3.416,0.276-6.673,1.51-9.578"/>
-                <div class="successtext">
-                  <p>
-                    Thanks for signing up! Check your email for confirmation.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="forgot">
-              <a href="#">Forgot your password?</a>
-            </div>
-
-            <div>
-              <div class="cover-photo"></div>
-              <div class="profile-photo"></div>
-              <h1 class="welcome">Welcome, Chris</h1>
-              <a class="btn-goback" value="Refresh" onclick="history.go()">Go back</a>
-            </div>
+          <div class="field-wrap">
+            <label>
+                Last Name<span class="req">*</span>
+              </label>
+            <input type="text" required autocomplete="off" />
           </div>
         </div>
-      </div>
+
+        <div class="field-wrap">
+          <label>
+              Email Address<span class="req">*</span>
+            </label>
+          <input type="email" required autocomplete="off" />
+        </div>
+
+        <div class="field-wrap">
+          <label>
+              Set A Password<span class="req">*</span>
+            </label>
+          <input type="password" required autocomplete="off" />
+        </div>
+
+        <button type="submit" class="button button-block" />Get Started</button>
+
+      </form>
+
+    </div>
+
+    <div id="login">
+      <h1>Welcome Back!</h1>
+
+      <form action="/" method="post">
+
+        <div class="field-wrap">
+          <label>
+              Email Address<span class="req">*</span>
+            </label>
+          <input type="email" required autocomplete="off" />
+        </div>
+
+        <div class="field-wrap">
+          <label>
+              Password<span class="req">*</span>
+            </label>
+          <input type="password" required autocomplete="off" />
+        </div>
+
+        <p class="forgot"><a href="#">Forgot Password?</a></p>
+
+        <button class="button button-block" />Log In</button>
+
+      </form>
+
+    </div>
+
+  </div>
+  <!-- tab-content -->
+
+</div>
+<!-- /form -->
+    </div>
+
+
 
     <div class="timeline-container" id="timeline-1">
       <div class="timeline-header">
@@ -273,8 +292,8 @@
 
       // Initialize popup as usual
       $('.image-link').magnificPopup({
-        type: 'image', mainClass: 'mfp-with-zoom', // this class is for CSS animation below
-
+        type: 'image',
+        mainClass: 'mfp-with-zoom', // this class is for CSS animation below
         zoom: {
           enabled: true, // By default it's false, so don't forget to enable it
 
@@ -311,38 +330,21 @@
         }
       });
 
+
+      $('.tab a').on('click', function (e) {
+
+        e.preventDefault();
+
+        $(this).parent().addClass('active');
+        $(this).parent().siblings().removeClass('active');
+
+        target = $(this).attr('href');
+
+        $('.tab-content > div').not(target).hide();
+
+        $(target).fadeIn(600);
+
+      });
+
     }());
-
-    $(function () {
-      $(".btn").click(function () {
-        $(".form-signin").toggleClass("form-signin-left");
-        $(".form-signup").toggleClass("form-signup-left");
-        $(".frame").toggleClass("frame-long");
-        $(".signup-inactive").toggleClass("signup-active");
-        $(".signin-active").toggleClass("signin-inactive");
-        $(".forgot").toggleClass("forgot-left");
-        $(this).removeClass("idle").addClass("active");
-      });
-    });
-
-    $(function () {
-      $(".btn-signup").click(function () {
-        $(".nav").toggleClass("nav-up");
-        $(".form-signup-left").toggleClass("form-signup-down");
-        $(".success").toggleClass("success-left");
-        $(".frame").toggleClass("frame-short");
-      });
-    });
-
-    $(function () {
-      $(".btn-signin").click(function () {
-        $(".btn-animate").toggleClass("btn-animate-grow");
-        $(".welcome").toggleClass("welcome-left");
-        $(".cover-photo").toggleClass("cover-photo-down");
-        $(".frame").toggleClass("frame-short");
-        $(".profile-photo").toggleClass("profile-photo-down");
-        $(".btn-goback").toggleClass("btn-goback-up");
-        $(".forgot").toggleClass("forgot-fade");
-      });
-    });
   </script>
