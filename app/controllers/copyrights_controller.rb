@@ -1,5 +1,4 @@
 class CopyrightsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_copyright, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
