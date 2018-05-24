@@ -39,6 +39,9 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem 'modernizr-rails', '~> 2.7', '>= 2.7.1'
+  gem 'jquery-rails'
+  gem 'magnific-popup-rails', '~> 1.1.0'
 end
 
 group :development do
