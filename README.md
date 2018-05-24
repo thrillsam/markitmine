@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -23,7 +22,3 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-=======
-# markitmine
-markitmine
->>>>>>> dd604190c0797e6c6a39d995dded6a378b6dea88

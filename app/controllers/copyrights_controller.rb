@@ -1,6 +1,8 @@
+require 'net/http'
 class CopyrightsController < ApplicationController
   before_action :set_copyright, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!
 
   # GET /copyrights
   # GET /copyrights.json
@@ -27,7 +29,6 @@ class CopyrightsController < ApplicationController
   def create
     params[:copyright] = params
     @copyright = Copyright.new(copyright_params)
-
     respond_to do |format|
       if @copyright.save
         format.html { redirect_to @copyright, notice: 'Copyright was successfully created.' }
@@ -64,7 +65,24 @@ class CopyrightsController < ApplicationController
   end
 
   def instagram_api
-    render json: { }, status: 200
+    url = URI('http://c2de105c.ngrok.io/instapictures')
+    http = Net::HTTP.new(url.host, url.port)
+    # http.use_ssl = true
+    # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    request = Net::HTTP::Post.new(url, 'Content-Type' => 'application/json')
+    # request["acc"] = Rails.application.secrets.mixpanel_api_token
+    # request["content-type"] = 'application/x-www-form-urlencoded'
+    request["cache-control"] = 'no-cache'
+    request.body = {accesstoken: '4323973862.52c48c5.e83c8c761bef4bf89eb26f578655fde4'}.to_json
+    @response = JSON.parse(http.request(request).read_body)
+    images = @response["data"]
+    images.each do |image|
+      image_url = image["user"]["profile_picture"]
+      puts image_url
+      Copyright.create(name: 'aaa', photo_url: URI.parse(image_url))
+    end
+    render body: nil
   end
 
   private
