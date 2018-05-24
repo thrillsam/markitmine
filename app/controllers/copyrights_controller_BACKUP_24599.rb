@@ -3,6 +3,10 @@ class CopyrightsController < ApplicationController
   before_action :set_copyright, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user!
+<<<<<<< HEAD
+
+=======
+>>>>>>> 64198818134ff234d977637d463630e20df0b398
 
   # GET /copyrights
   # GET /copyrights.json

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524141517) do
+ActiveRecord::Schema.define(version: 20180524133544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20180524141517) do
     t.datetime "date"
     t.string "type_of_file"
     t.index ["user_id"], name: "index_copyrights_on_user_id"
+    t.string "photo_url"
   end
 
   create_table "device_configs", force: :cascade do |t|
