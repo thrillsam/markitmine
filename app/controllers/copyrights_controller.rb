@@ -180,7 +180,8 @@ class CopyrightsController < ApplicationController
     puts response.read_body
     response = JSON.parse(response.read_body)
     puts response
-    render body: nil
+    @data = response
+    
   end
 
 

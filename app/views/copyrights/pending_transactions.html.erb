@@ -1,0 +1,22 @@
+<div class="container-fluid" style="padding-top: 80px; margin-left: 20px; margin-right: 20px;">
+<div class="container">
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th width="30%">ID</th>
+      <th width="50%">Media</th>
+      <th width="20%">fromAddress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @data.each do |data| %>
+     <tr>
+       <td width="30%"><%= data[:_id].to_s %></td>
+       <td width="50%"><%= data[:media].to_s %></td>
+       <td width="20%"><%= data[:fromAddress].to_s %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>
