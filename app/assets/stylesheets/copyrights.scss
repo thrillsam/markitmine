@@ -50,7 +50,7 @@
   }
 }
 .timeline-item {
-  padding: 40px 0;
+  padding: 60px 0;
   opacity: .3;
   filter: blur(2px);
   transition: .5s;
@@ -93,7 +93,7 @@
   filter: blur(0px);
 }
 .timeline-item--active:before {
-  top: 50%;
+  top: 67px;
   transition: .3s all .2s;
   opacity: 1;
 }

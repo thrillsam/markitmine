@@ -54,12 +54,12 @@
 <div class="timeline">
   <% @copyrights.where(user_id: [current_user.id]).order("id DESC").each do |copyright| %>
     <div class="timeline-item" data-text="<%= copyright.name %>">
-      <div class="timeline__content">
+      <div class="timeline__content" style="min-height: 200px;">
         <a href="<%= copyright.image.expiring_url %>" class="image-link">
           <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
         </a>
-        <h2 class="timeline__content-title">&nbsp;</h2>
-        <p class="timeline__content-desc" style="min-height: 80px;"></p>
+        <!-- <h2 class="timeline__content-title">&nbsp;</h2>
+        <p class="timeline__content-desc"></p> -->
       </div>
     </div>
   <% end %>
@@ -83,7 +83,7 @@
         min;
       var pos = $(this).scrollTop();
       selectors.item.each(function (i) {
-        min = $(this).offset().top;
+        min = $(this).offset().top - 180;
         max = $(this).height() + $(this).offset().top;
         var that = $(this);
         if (i == itemLength - 2 && pos > min + $(this).height() / 2) {
