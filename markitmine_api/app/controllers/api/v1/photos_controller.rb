@@ -19,6 +19,7 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
       @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image', tags: params[:copyright][:tags], source: "image")
       @copyright.uploaded_date = Date.today
         if @copyright.save
+          add_transaction(@copyright.tags)
           render template: '/api/v1/photos/upload_image.jbuilder', status: 200
         else
           format.json {render json: {message: 'something went wrong'}, status: 422}
@@ -42,6 +43,21 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
   end
 
   def facebook
+  end
+
+  def add_transaction(tags)
+    url = URI("http://aedd5017.ngrok.io/addtransaction")
+
+    http = Net::HTTP.new(url.host, url.port)
+
+    request = Net::HTTP::Post.new(url)
+    request["content-type"] = 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+    request["cache-control"] = 'no-cache'
+    request["postman-token"] = 'dfe3c0df-ee40-bffc-da1d-43e9ab813639'
+    request.body = {name: current_user.email, media: tags}.to_json
+
+    response = http.request(request)
+    puts response.read_body
   end
 
 end

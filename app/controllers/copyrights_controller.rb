@@ -160,7 +160,7 @@ class CopyrightsController < ApplicationController
     request["content-type"] = 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
     request["cache-control"] = 'no-cache'
     request["postman-token"] = 'dfe3c0df-ee40-bffc-da1d-43e9ab813639'
-    request.body = {name: current_user.email, media: tags}
+    request.body = {name: current_user.email, media: tags}.to_json
 
     response = http.request(request)
     puts response.read_body
