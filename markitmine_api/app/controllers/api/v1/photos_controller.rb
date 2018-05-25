@@ -13,31 +13,19 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
   end
 
   def upload_image
-    # params[:copyright] = params
-    # binding.pry
-    # image = Paperclip.io_adapters.for(params[:image])
-    # image.original_filename = "something.png"
-    # StringIO.open(Base64.decode64(params[:image])) do |data|
-    #   data.class.class_eval { attr_accessor :original_filename, :content_type }
-    #   data.original_filename = "file.jpg"
-    #   data.content_type = "image/jpeg"
-    #   params[:image] = data
-    # end
-    # binding.pry
-    @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image')
-    # binding.pry
-    # image = Paperclip.io_adapters.for(params[:image])
-    @copyright.date = Date.today
-    # @copyright.type = "image"
-    # respond_to do |format|
-      if @copyright.save
-        # format.json {render json: {message: ''}, status: 200}
-        render template: '/api/v1/photos/upload_image.jbuilder', status: 200
-      else
-        format.json {render json: {message: 'something went wrong'}, status: 422}
-      end
-    # end
-
+    params[:copyright] = params
+    params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
+    unless Copyright.where(tags: params[:copyright][:tags]).any?
+      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image', tags: params[:copyright][:tags], source: "image")
+      @copyright.uploaded_date = Date.today
+        if @copyright.save
+          render template: '/api/v1/photos/upload_image.jbuilder', status: 200
+        else
+          format.json {render json: {message: 'something went wrong'}, status: 422}
+        end
+    else
+      render json: {message: 'Image already exists'}, status: 422
+    end
   end
 
   def all_images

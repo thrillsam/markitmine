@@ -44,6 +44,7 @@ group :development, :test do
   gem 'modernizr-rails', '~> 2.7', '>= 2.7.1'
   gem 'jquery-rails'
   gem 'magnific-popup-rails', '~> 1.1.0'
+  gem 'izitoast'
 end
 
 group :development do

@@ -9,22 +9,70 @@
   </head>
 
   <body>
-    <%= yield %>
-    <% if notice %>
-  <p class="alert alert-success"><%= notice %></p>
-<% end %>
-<% if alert %>
-  <p class="alert alert-danger"><%= alert %></p>
-<% end %>
-<p class="navbar-text pull-right">
-<% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-<% end %>
-</p>
+    <div class="window">
+      <div class="header">
+        <div class="burger-container">
+          <div id="burger">
+            <div class="bar topBar"></div>
+            <div class="bar midBar"></div>
+            <div class="bar btmBar"></div>
+          </div>
+        </div>
+        <div class="icon"><%= image_tag("eod.png", alt: "EOD") %></div>
+          <% if user_signed_in? %>
+          <div style="position: absolute; right: 15px; top: 15px; color: #FFF;">
+            <strong><%= current_user.email %></strong>
+          </div>
+          <ul class="menu">
+            <li class="menu-item">
+              <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %>
+            </li>
+            <li class="menu-item">
+              <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+            </li>
+          </ul>
+          <% else %>
+          <ul class="menu">
+            <li class="menu-item">
+              <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %>
+            </li>
+            <li class="menu-item">
+              <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+            </li>
+          </ul>
+          <% end %>
+        </div>
+
+        <% if notice %>
+          <script>
+            iziToast.success({
+                title: 'Success',
+                message: "<%= notice %>",
+                position: 'topRight',
+            });
+          </script>
+        <% end %>
+        <% if alert %>
+          <script>
+            iziToast.error({
+                title: 'Error',
+                message: "<%= alert %>",
+                position: 'topRight',
+            });
+          </script>
+        <% end %>
+        <%= yield %>
+      </div>
+
+    <script>
+      (function () {
+        var burger = document.querySelector('.burger-container'),
+          header = document.querySelector('.header');
+
+        burger.onclick = function () {
+          header.classList.toggle('menu-opened');
+        }
+      }());
+    </script>
   </body>
 </html>
