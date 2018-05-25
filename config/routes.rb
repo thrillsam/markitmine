@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   get 'home/index'
-  get '/get_access_token',    to: "copyrights#get_access_token"
-  get '/instagram_api',       to: "copyrights#instagram_api"
+  get '/get_access_token',     to: "copyrights#get_access_token"
+  get '/instagram_api',        to: "copyrights#instagram_api"
   get '/transaction_details',  to: "copyrights#transaction_details"
   post '/add_transaction',     to: "copyrights#add_transaction"
   get '/pending_transactions', to: "copyrights#pending_transactions"
