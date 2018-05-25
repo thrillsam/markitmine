@@ -3,6 +3,8 @@ class CopyrightsController < ApplicationController
   before_action :set_copyright, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user!
+  include Devise::Controllers::Helpers
+    helper_method :current_user
 
   # GET /copyrights
   # GET /copyrights.json
@@ -65,6 +67,7 @@ class CopyrightsController < ApplicationController
   end
 
   def instagram_api
+    # binding.pry
     url = URI('http://c2de105c.ngrok.io/instapictures')
     http = Net::HTTP.new(url.host, url.port)
     # http.use_ssl = true
@@ -78,9 +81,15 @@ class CopyrightsController < ApplicationController
     @response = JSON.parse(http.request(request).read_body)
     images = @response["data"]
     images.each do |image|
+      puts image
       image_url = image["user"]["profile_picture"]
+      id        = image["user"]["id"]
+      source    = 'instagram'
+      name      = image["user"]["full_name"]
       puts image_url
-      Copyright.create(name: 'aaa', photo_url: URI.parse(image_url))
+      a = Copyright.create(uploaded_id: id, name: name, photo_url: image_url, user_id: current_user.id) unless Copyright.find_by(uploaded_id: id).present?
+      # a.save
+      # puts a.errors.messages
     end
     render body: nil
   end

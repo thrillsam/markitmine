@@ -14,7 +14,17 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
 
   def upload_image
     # params[:copyright] = params
-    @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id], type_of_file: params[:type])
+    # binding.pry
+    # image = Paperclip.io_adapters.for(params[:image])
+    # image.original_filename = "something.png"
+    # StringIO.open(Base64.decode64(params[:image])) do |data|
+    #   data.class.class_eval { attr_accessor :original_filename, :content_type }
+    #   data.original_filename = "file.jpg"
+    #   data.content_type = "image/jpeg"
+    #   params[:image] = data
+    # end
+    # binding.pry
+    @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image')
     # binding.pry
     # image = Paperclip.io_adapters.for(params[:image])
     @copyright.date = Date.today
