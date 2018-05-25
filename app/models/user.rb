@@ -5,7 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
    has_many :copyrights
-   
+   has_one :instagram_user
+
     def self.authenticate(email, password)
   	  user = find_by_email(email)
   	  if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.encrypted_password)
