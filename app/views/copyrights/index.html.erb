@@ -30,6 +30,9 @@
       </div>
       <div class="btn-animate">
         <%= f.hidden_field :user_id, name: "user_id", value: current_user.id %>
+        <%= f.hidden_field :uploaded_date, name: "uploaded_date", value: Date.today %>
+        <%= f.hidden_field :type_of_file, name: "type_of_file", value: "image" %>
+        <%= f.hidden_field :source, name: "source", value: "image" %>
         <%= f.submit "#markitmine" , :class => "btn-signin", :style => "background-color: #1059ff;" %>
       </div>
       <!-- </form> -->
@@ -58,7 +61,7 @@
         <a href="<%= copyright.image.expiring_url %>" class="image-link">
           <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
         </a>
-        <h2 class="timeline__content-title">&nbsp;</h2>
+        <h2 class="timeline__content-title"><%= copyright.uploaded_date%></h2>
         <p class="timeline__content-desc" style="min-height: 80px;"></p>
       </div>
     </div>
