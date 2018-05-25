@@ -31,18 +31,22 @@ class CopyrightsController < ApplicationController
   # POST /copyrights
   # POST /copyrights.json
   def create
-    params[:copyright] = params
-    @copyright = Copyright.new(copyright_params)
-    respond_to do |format|
-      if @copyright.save
-        format.html { redirect_to @copyright, notice: 'Copyright was successfully created.' }
-        format.json { render :show, status: :created, location: @copyright }
-      else
-        format.html { render :new }
-        format.json { render json: @copyright.errors, status: :unprocessable_entity }
-      end
+   params[:copyright] = params
+   params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
+    unless Copyright.where(tags: params[:copyright][:tags]).any?
+     @copyright = Copyright.new(copyright_params)
+     respond_to do |format|
+       if @copyright.save
+         format.html { redirect_to copyrights_url, notice: 'Copyright was successfully created.' } 
+       else
+         format.html { render :new }
+         format.json { render json: @copyright.errors, status: :unprocessable_entity }
+       end
+     end
+    else
+      redirect_back fallback_location: "/copyrights", notice: "Image already exists"
     end
-  end
+ end
 
   # PATCH/PUT /copyrights/1
   # PATCH/PUT /copyrights/1.json
@@ -97,6 +101,6 @@ class CopyrightsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def copyright_params
-      params.require(:copyright).permit(:name, :image, :user_id, :date, :type_of_file)
+      params.require(:copyright).permit(:name, :image, :user_id, :date, :type_of_file, :uploaded_date, :photo_url, :uploaded_id, :likes_count, :tags)
     end
 end

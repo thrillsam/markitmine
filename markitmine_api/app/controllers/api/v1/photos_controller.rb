@@ -13,20 +13,19 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
   end
 
   def upload_image
-    # params[:copyright] = params
-    @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id], type_of_file: params[:type])
-    # binding.pry
-    # image = Paperclip.io_adapters.for(params[:image])
-    @copyright.date = Date.today
-    # @copyright.type = "image"
-    # respond_to do |format|
-      if @copyright.save
-        # format.json {render json: {message: ''}, status: 200}
-        render template: '/api/v1/photos/upload_image.jbuilder', status: 200
-      else
-        format.json {render json: {message: 'something went wrong'}, status: 422}
-      end
-    # end
+    params[:copyright] = params
+    params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
+    unless Copyright.where(tags: params[:copyright][:tags]).any?
+      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id], type_of_file: params[:type])
+      @copyright.uploaded_date = Time.now
+        if @copyright.save
+          render template: '/api/v1/photos/upload_image.jbuilder', status: 200
+        else
+          format.json {render json: {message: 'something went wrong'}, status: 422}
+        end
+    else
+      render json: {message: 'Image already exists'}, status: 409
+    end
 
   end
 

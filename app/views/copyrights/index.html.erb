@@ -53,6 +53,8 @@
              </div>
              <div class="btn-animate">
                <%= f.hidden_field :user_id, name: "user_id", value: current_user.id %>
+               <%= f.hidden_field :type_of_file, name: "type_of_file", value: "image" %>
+               <%= f.hidden_field :uploaded_date, name: "uploaded_date", value: Time.now %>
                <%= f.submit "#markitmine" , :class => "btn-signin", :style => "background-color: #1059ff;" %>
              </div>
             <!-- </form> -->
@@ -75,17 +77,19 @@
         <h3 class="timeline-header__subtitle">#markitmine and make it yours. :)</h3>
       </div>
       <div class="timeline">
-        <% @copyrights.order("id DESC").each do |copyright| %>
-          <div class="timeline-item" data-text="<%= copyright.name %>">
-            <div class="timeline__content">
-              <a href="<%= copyright.image.expiring_url %>">
-                <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
-              </a>
-              <h2 class="timeline__content-title">1881</h2>
-              <p class="timeline__content-desc">He was born in 1881 (probably in the spring) in Salonica, then an Ottoman city, now inGreece. His father Ali Riza, a customs official turned lumber merchant, died when Mustafawas still a boy. His mother Zubeyde,
-                adevout and strong-willed woman, raised him and his sister.</p>
+        <% if @copyrights.present? %>
+          <% @copyrights.order("created_at DESC").each do |copyright| %>
+            <div class="timeline-item" data-text="<%= copyright.name %>">
+              <div class="timeline__content">
+                <a href="<%= copyright.image.expiring_url %>">
+                  <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
+                </a>
+                <h4 class="timeline__content-title"><%= copyright.uploaded_date.strftime("%d/%m/%Y at %I:%M%p") if copyright.try(:uploaded_date).present?  %></h4>
+                <p class="timeline__content-desc">He was born in 1881 (probably in the spring) in Salonica, then an Ottoman city, now inGreece. His father Ali Riza, a customs official turned lumber merchant, died when Mustafawas still a boy. His mother Zubeyde,
+                  adevout and strong-willed woman, raised him and his sister.</p>
+              </div>
             </div>
-          </div>
+          <% end %>
         <% end %>
       </div>
     </div>
