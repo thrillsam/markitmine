@@ -36,17 +36,18 @@ class CopyrightsController < ApplicationController
     params[:copyright] = params
     params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
     unless Copyright.where(tags: params[:copyright][:tags]).any?
-      @copyright = Copyright.new(copyright_params)
-      respond_to do |format|
-        if @copyright.save
-          add_transaction(@copyright.tags)
-          format.html { redirect_to @copyright, notice: 'Copyright was successfully created.' }
-          format.json { render :show, status: :created, location: @copyright }
-        else
-          format.html { render :new }
-          format.json { render json: @copyright.errors, status: :unprocessable_entity }
-        end
-      end
+     @copyright = Copyright.new(copyright_params)
+     respond_to do |format|
+       if @copyright.save
+         add_transaction(@copyright.tags)
+         format.html { redirect_to copyrights_url, notice: 'Copyright was successfully created.' } 
+       else
+         format.html { render :new }
+         format.json { render json: @copyright.errors, status: :unprocessable_entity }
+       end
+     end
+    else
+      redirect_back fallback_location: "/copyrights", alert: "Image already exists"
     end
   end
 
@@ -75,7 +76,7 @@ class CopyrightsController < ApplicationController
   end
 
   def get_access_token
-    url = URI("http://77b20c4a.ngrok.io/authorize_user")
+    url = URI("http://aedd5017.ngrok.io/authorize_user")
 
     http = Net::HTTP.new(url.host, url.port)
 
@@ -107,7 +108,7 @@ class CopyrightsController < ApplicationController
 
   def instagram_api
     # binding.pry
-    url = URI('http://77b20c4a.ngrok.io/instapictures')
+    url = URI('http://aedd5017.ngrok.io/instapictures')
     http = Net::HTTP.new(url.host, url.port)
     # http.use_ssl = true
     # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -121,14 +122,15 @@ class CopyrightsController < ApplicationController
     images = @response["data"]
     images.each do |image|
       puts image
-      binding.pry
       image_url = image["images"]["standard_resolution"]["url"]
       id      = image["caption"]["id"]
       source  = 'instagram'
       uploaded_date = Date.jd(image["caption"]["created_time"].to_i)
-      binding.pry
       puts image_url
-      a = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source) unless Copyright.find_by(uploaded_id: id).present?
+      unless Copyright.find_by(uploaded_id: id).present?
+        copyright = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source)
+        add_transaction(copyright.tags)
+      end
       # a.save
       # puts a.errors.messages
     end
