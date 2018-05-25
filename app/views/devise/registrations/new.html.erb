@@ -5,19 +5,19 @@
       <%= devise_error_messages! %>
 
         <div class="field-wrap">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <%#= f.label :email %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
         </div>
 
         <div class="top-row">
           <div class="field-wrap">
-            <%= f.label :password %>
-            <%= f.password_field :password, autocomplete: "off" %>
+            <%#= f.label :password %>
+            <%= f.password_field :password, autocomplete: "off", placeholder: "Password" %>
           </div>
 
           <div class="field-wrap">
-            <%= f.label :password_confirmation %>
-            <%= f.password_field :password_confirmation, autocomplete: "off" %>
+            <%#= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Password confirmation" %>
           </div>
       </div>
 

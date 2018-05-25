@@ -4,6 +4,10 @@ class CopyrightsController < ApplicationController
   skip_before_action :verify_authenticity_token
   skip_before_action :authenticate_user!
 
+  include Devise::Controllers::Helpers
+
+  helper_method :current_user
+
   # GET /copyrights
   # GET /copyrights.json
   def index
@@ -93,6 +97,6 @@ class CopyrightsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def copyright_params
-      params.require(:copyright).permit(:name, :image)
+      params.require(:copyright).permit(:name, :image, :user_id, :date, :type_of_file)
     end
 end

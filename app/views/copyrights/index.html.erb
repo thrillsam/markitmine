@@ -24,41 +24,44 @@
     <a class="icon icon-add popup-with-form " href="#test-form"><%= image_tag("add.png", alt: "Add Image") %></a>
 
     <!-- form itself -->
-    <form id="test-form" class="white-popup-block mfp-hide">
+    <!-- <form id="test-form" class="white-popup-block mfp-hide"> -->
+      <%= form_for Copyright.new, as: :post, url: copyrights_path, method: "POST", html: {id: 'test-form', class: "white-popup-block mfp-hide"} do |f| %>
       <div class="container">
         <div class="frame">
           <h1>Add Your Image</h1>
           <div ng-app ng-init="checked = false">
-            <form class="form-signin" action="" method="post" name="form">
+            
              <label for="username">Name</label>
-             <input class="form-styling" type="text" name="username" placeholder=""/>
-
+             <!-- <input class="form-styling" type="text" name="username" placeholder="File name"/> -->
+             <%= f.text_field :name, name: "name", id: "copyright_name", class: "form-styling", placeholder: "File name"  %>
              <div class="file-upload">
-   <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+               <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
 
-   <div class="image-upload-wrap">
-     <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
-     <div class="drag-text">
-       <h3>Drag and drop a file or select add Image</h3>
-     </div>
-   </div>
-   <div class="file-upload-content">
-     <img class="file-upload-image" src="#" alt="your image" />
-     <div class="image-title-wrap">
-       <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-     </div>
-   </div>
- </div>
-             <div class="btn-animate">
-               <a href="#" class="btn-signin">#markitmine</a>
+               <div class="image-upload-wrap">
+                <%= f.file_field :image, name: "image", id: "copyright_image", class: "file-upload-input", onchange: "readURL(this);", accept: "image/*" %>
+                 <!-- <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" /> -->
+                 <div class="drag-text">
+                   <h3>Drag and drop a file or select add Image</h3>
+                 </div>
+               </div>
+               <div class="file-upload-content">
+                 <img class="file-upload-image" src="#" alt="your image" />
+                 <div class="image-title-wrap">
+                   <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                 </div>
+               </div>
              </div>
-            </form>
+             <div class="btn-animate">
+               <%= f.hidden_field :user_id, name: "user_id", value: current_user.id %>
+               <%= f.submit "#markitmine" , :class => "btn-signin", :style => "background-color: #1059ff;" %>
+             </div>
+            <!-- </form> -->
           </div>
         </div>
 
       </div>
-    </form>
-
+            <% end %>
+    <!-- </form> -->
     <div class="icon icon-bag">
       <span class="profile_img"><img class="user-cardimg-placeholder user-profile-image image-small"></span>
     </div>
@@ -72,129 +75,18 @@
         <h3 class="timeline-header__subtitle">#markitmine and make it yours. :)</h3>
       </div>
       <div class="timeline">
-        <div class="timeline-item" data-text="MICHAEL JACKSON">
-          <div class="timeline__content">
-            <a href="https://kuulpeeps.com/wp-content/uploads/2017/08/michael-jackson-xscape_wide-8d509ce1a8ad782dfc5b0e351a7d0deb3e844638.jpg" class="image-link">
-              <img class="timeline__img" src="https://kuulpeeps.com/wp-content/uploads/2017/08/michael-jackson-xscape_wide-8d509ce1a8ad782dfc5b0e351a7d0deb3e844638.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1881</h2>
-            <p class="timeline__content-desc">He was born in 1881 (probably in the spring) in Salonica, then an Ottoman city, now inGreece. His father Ali Riza, a customs official turned lumber merchant, died when Mustafawas still a boy. His mother Zubeyde,
-              adevout and strong-willed woman, raised him and his sister.</p>
+        <% @copyrights.order("id DESC").each do |copyright| %>
+          <div class="timeline-item" data-text="<%= copyright.name %>">
+            <div class="timeline__content">
+              <a href="<%= copyright.image.expiring_url %>">
+                <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
+              </a>
+              <h2 class="timeline__content-title">1881</h2>
+              <p class="timeline__content-desc">He was born in 1881 (probably in the spring) in Salonica, then an Ottoman city, now inGreece. His father Ali Riza, a customs official turned lumber merchant, died when Mustafawas still a boy. His mother Zubeyde,
+                adevout and strong-willed woman, raised him and his sister.</p>
+            </div>
           </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="https://cdn.unicornbooty.com/wp-content/uploads/2017/12/23134746/george-michael-politics-1000x500.jpg" class="image-link">
-              <img class="timeline__img" src="https://cdn.unicornbooty.com/wp-content/uploads/2017/12/23134746/george-michael-politics-1000x500.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1893</h2>
-            <p class="timeline__content-desc">First enrolled in a traditionalreligious school, he soon switched to a modern school. In 1893, he entered a military highschool where his mathematics teacher gave him the second name Kemal (meaning perfection)in
-              recognition of young Mustafa's superior achievement.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="https://upload.wikimedia.org/wikipedia/commons/2/20/Ataturk-1930-amongpublic.jpg" class="image-link">
-              <img class="timeline__img" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Ataturk-1930-amongpublic.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1905</h2>
-            <p class="timeline__content-desc">In 1905, Mustafa Kemal graduated from the War Academy in Istanbul with the rank of Staff Captain. Posted in Damascus, he started with several colleagues, a clandestinesociety called "Homeland and Freedom" to fight against the Sultan'sdespotism.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://cdn.yemek.com/uploads/2014/11/ataturk-10-kasim.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1908</h2>
-            <p class="timeline__content-desc">In 1908 he helped the group of officers who toppled the Sultan. Mustafa Kemal'scareer flourished as he won his heroism in the far corners of the Ottoman Empire,including Albania and Tripoli. He also briefly served as
-              a staff officer in Salonica andIstanbul and as a military attache in Sofia.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://ataturk.istanbul.gov.tr/GalleryLibrary/12.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1915</h2>
-            <p class="timeline__content-desc">In 1915, when Dardanelles campaign was launched, Colonel Mustafa Kemal became anational hero by winning successive victories and finally repelling the invaders.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://blog.istanbul1881.com/wp-content/uploads/2016/08/atat%C3%BCrk-%C3%BCn-inan%C4%B1lmaz-karizmatik-fotograf%C4%B1_861050.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1916</h2>
-            <p class="timeline__content-desc">Promotedto general in 1916, at age 35, he liberated two major provinces in eastern Turkey thatyear. In the next two years, he served as commander of several Ottoman armies inPalestine, Aleppo, and elsewhere,
-              achieving another major victory by stopping the enemyadvance at Aleppo.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://manisanokta.com/wp-content/uploads/2014/07/ataturk-20.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1919</h2>
-            <p class="timeline__content-desc">On May 19, 1919, Mustafa Kemal Pasha landed in the Black Sea port of Samsun to startthe War of Independence. In defiance of the Sultan's government, he rallied a liberationarmy in Anatolia and convened the Congress
-              of Erzurum and Sivas which established thebasis for the new national effort under his leadership.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://www.volpeypir.com/upload/3732.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1920</h2>
-            <p class="timeline__content-desc">
-              On April 23, 1920, the GrandNational Assembly was inaugurated. Mustafa Kemal Pasha was elected to its Presidency. Fighting on many fronts, he led his forces to victory against rebels and invadingarmies. Following the Turkish triumph at the two major
-              battles at Inonu in Western Turkey,the Grand National Assembly conferred on Mustafa Kemal Pasha the title ofCommander-in-Chief with the rank of Marshal.
-            </p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://sanatkaravani.com/wp-content/uploads/2015/11/ataturk-4.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1922</h2>
-            <p class="timeline__content-desc">At the end of August 1922, the Turkish armieswon their ultimate victory. Within a few weeks, the Turkish mainland was completelyliberated, the armistice signed, and the rule of the Ottoman dynasty abolished</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="https://turkcetarih.com/wp-content/uploads/2015/05/Atat%C3%BCrkveCumhuriyet.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1923</h2>
-            <p class="timeline__content-desc">In July 1923, the national government signed the Lausanne Treaty with Great Britain,France, Greece, Italy, and others. In mid-October, Ankara became the capital of the new Turkish State. On October 29, the Republic
-              was proclaimed and Mustafa Kemal Pasha wasunanimously elected President of the Republic.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="https://pbs.twimg.com/media/Cw69H8pXUAEaSqa.jpg"/>
-            </a>
-            <h2 class="timeline__content-title">1934</h2>
-            <p class="timeline__content-desc">
-              The account of Atatürk's fifteen year Presidency is a saga of dramatic modernization.With indefatigable determination, he created a new political and legal system, abolished the Caliphate and made both government and education secular, gave equal
-              rights to women,changed the alphabet and the attire, and advanced the arts and the sciences, agricultureand industry. In 1934, when the surname law was adopted, the national parliament gave him the name
-              <i>
-                <strong>"Atatürk" (Father of the Turks)</strong>
-              </i>
-            </p>
-          </div>
-        </div>
-        <div class="timeline-item" data-text="FATHER OF THE TURKS">
-          <div class="timeline__content">
-            <a href="http://i.cdn.ensonhaber.com/resimler/diger/ataturk_3473.jpg" class="image-link">
-              <img class="timeline__img" src="http://www.bik.gov.tr/wp-content/uploads/2016/11/20161110_2_20037273_15856882.jpg?fit=1024%2C863"/>
-            </a>
-            <h2 class="timeline__content-title">1938</h2>
-            <p class="timeline__content-desc">On November 10, 1938, following an illness of a few months, the national liberator and the Father of modern Turkey died. But his legacy to his people and to the world endures.</p>
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>
