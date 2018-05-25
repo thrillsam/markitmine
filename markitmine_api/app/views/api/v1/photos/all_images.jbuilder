@@ -6,7 +6,8 @@ json.copyrights @copyrights do |copyright|
   json.image_content_type copyright.image_content_type
   json.image_file_size copyright.image_file_size
   json.image_updated_at copyright.image_updated_at
-  json.date copyright.uploaded_date
+  json.photo_url copyright.photo_url
+  json.date copyright.created_at.beginning_of_day
   json.type_of_file copyright.type_of_file
   json.source copyright.source
   json.user_id copyright.user_id

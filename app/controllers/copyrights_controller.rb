@@ -40,7 +40,7 @@ class CopyrightsController < ApplicationController
      respond_to do |format|
        if @copyright.save
          add_transaction(@copyright.tags)
-         format.html { redirect_to copyrights_url, notice: 'Copyright was successfully created.' } 
+         format.html { redirect_to copyrights_url, notice: 'Copyright was successfully created.' }
        else
          format.html { render :new }
          format.json { render json: @copyright.errors, status: :unprocessable_entity }
@@ -76,7 +76,7 @@ class CopyrightsController < ApplicationController
   end
 
   def get_access_token
-    url = URI("http://77b20c4a.ngrok.io/authorize_user")
+    url = URI("http://53d79249.ngrok.io/authorize_user")
 
     http = Net::HTTP.new(url.host, url.port)
 
@@ -86,10 +86,8 @@ class CopyrightsController < ApplicationController
 
     response = http.request(request)
     puts response.read_body
-    binding.pry
     url2 = response.read_body
     url2.slice!('Found. Redirecting to ')
-    binding.pry
     url = URI("#{url2}")
 
     http = Net::HTTP.new(url.host, url.port)
@@ -99,7 +97,6 @@ class CopyrightsController < ApplicationController
     request["postman-token"] = '4bab54b3-a698-d1ac-d7b0-6c15d41cc7ca'
 
     response = http.request(request)
-    binding.pry
 
     puts response.read_body
     InstagramUser.create(user_id: current_user.id, accesstoken: response)
@@ -108,7 +105,7 @@ class CopyrightsController < ApplicationController
 
   def instagram_api
     # binding.pry
-    url = URI('http://77b20c4a.ngrok.io/instapictures')
+    url = URI('http://53d79249.ngrok.io/instapictures')
     http = Net::HTTP.new(url.host, url.port)
     # http.use_ssl = true
     # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -122,14 +119,15 @@ class CopyrightsController < ApplicationController
     images = @response["data"]
     images.each do |image|
       puts image
-      binding.pry
       image_url = image["images"]["standard_resolution"]["url"]
-      id      = image["caption"]["id"]
-      source  = 'instagram'
+      id        = image["caption"]["id"]
+      source    = 'instagram'
       uploaded_date = Date.jd(image["caption"]["created_time"].to_i)
-      binding.pry
       puts image_url
-      a = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source) unless Copyright.find_by(uploaded_id: id).present?
+      unless Copyright.find_by(uploaded_id: id).present?
+        copyright = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source)
+        add_transaction(copyright.tags)
+      end
       # a.save
       # puts a.errors.messages
     end
@@ -138,7 +136,7 @@ class CopyrightsController < ApplicationController
 
   def transaction_details
     user_id = current_user.id
-    url = URI("http://aedd5017.ngrok.io/usertransactions?userid=debayan")
+    url = URI("http://53d79249.ngrok.io/usertransactions?userid=debayan")
 
     http = Net::HTTP.new(url.host, url.port)
 
@@ -153,7 +151,7 @@ class CopyrightsController < ApplicationController
   end
 
   def add_transaction(tags)
-    url = URI("http://aedd5017.ngrok.io/addtransaction")
+    url = URI("http://53d79249.ngrok.io/addtransaction")
 
     http = Net::HTTP.new(url.host, url.port)
 
@@ -168,7 +166,7 @@ class CopyrightsController < ApplicationController
   end
 
   def pending_transactions
-    url = URI("http://aedd5017.ngrok.io/pendingtransactions")
+    url = URI("http://53d79249.ngrok.io/pendingtransactions")
 
     http = Net::HTTP.new(url.host, url.port)
 

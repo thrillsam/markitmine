@@ -54,7 +54,7 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
     request["content-type"] = 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
     request["cache-control"] = 'no-cache'
     request["postman-token"] = 'dfe3c0df-ee40-bffc-da1d-43e9ab813639'
-    request.body = {name: current_user.email, media: tags}.to_json
+    request.body = {name: Copyright.find_by(tags: tags).user.email, media: tags}.to_json
 
     response = http.request(request)
     puts response.read_body
