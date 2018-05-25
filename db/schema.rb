@@ -23,9 +23,14 @@ ActiveRecord::Schema.define(version: 20180524151054) do
     t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.datetime "date"
+    t.string "type_of_file"
+    t.index ["user_id"], name: "index_copyrights_on_user_id"
     t.string "photo_url"
     t.bigint "user_id"
     t.datetime "date"
+    t.string "type"
     t.string "source"
     t.datetime "uploaded_date"
     t.string "uploaded_id"
