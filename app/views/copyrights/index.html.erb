@@ -1,190 +1,156 @@
-<%= notice %>
-<div class="window">
-  <div class="header">
-    <div class="burger-container">
-      <div id="burger">
-        <div class="bar topBar"></div>
-        <div class="bar midBar"></div>
-        <div class="bar btmBar"></div>
-      </div>
-    </div>
-    <div class="icon"><%= image_tag("eod.png", alt: "EOD") %></div>
-    <ul class="menu">
-      <li class="menu-item">
-        <a href="#">Home</a>
-      </li>
-      <li class="menu-item">
-        <a href="#">Menu Item 1</a>
-      </li>
-      <li class="menu-item">
-        <a href="#">Menu Item 2</a>
-      </li>
-    </ul>
-    <!-- link that opens popup -->
-    <a class="icon icon-add popup-with-form " href="#test-form"><%= image_tag("add.png", alt: "Add Image") %></a>
 
-    <!-- form itself -->
-    <!-- <form id="test-form" class="white-popup-block mfp-hide"> -->
-      <%= form_for Copyright.new, as: :post, url: copyrights_path, method: "POST", html: {id: 'test-form', class: "white-popup-block mfp-hide"} do |f| %>
-      <div class="container">
-        <div class="frame">
-          <h1>Add Your Image</h1>
-          <div ng-app ng-init="checked = false">
-            
-             <label for="username">Name</label>
-             <!-- <input class="form-styling" type="text" name="username" placeholder="File name"/> -->
-             <%= f.text_field :name, name: "name", id: "copyright_name", class: "form-styling", placeholder: "File name"  %>
-             <div class="file-upload">
-               <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+<!-- form itself -->
+<!-- <form id="test-form" class="white-popup-block mfp-hide"> -->
+<%= form_for Copyright.new, as: :post, url: copyrights_path, method: "POST", html: {id: 'test-form', class: "white-popup-block mfp-hide"} do |f| %>
+<div class="container">
+  <div class="frame">
+    <h1>Add Your Image</h1>
+    <div ng-app="ng-app" ng-init="checked = false">
 
-               <div class="image-upload-wrap">
-                <%= f.file_field :image, name: "image", id: "copyright_image", class: "file-upload-input", onchange: "readURL(this);", accept: "image/*" %>
-                 <!-- <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" /> -->
-                 <div class="drag-text">
-                   <h3>Drag and drop a file or select add Image</h3>
-                 </div>
-               </div>
-               <div class="file-upload-content">
-                 <img class="file-upload-image" src="#" alt="your image" />
-                 <div class="image-title-wrap">
-                   <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-                 </div>
-               </div>
-             </div>
-             <div class="btn-animate">
-               <%= f.hidden_field :user_id, name: "user_id", value: current_user.id %>
-               <%= f.hidden_field :type_of_file, name: "type_of_file", value: "image" %>
-               <%= f.hidden_field :uploaded_date, name: "uploaded_date", value: Date.today %>
-               <%= f.submit "#markitmine" , :class => "btn-signin", :style => "background-color: #1059ff;" %>
-             </div>
-            <!-- </form> -->
+      <label for="username">Name</label>
+      <!-- <input class="form-styling" type="text" name="username" placeholder="File name"/> -->
+      <%= f.text_field :name, name: "name", id: "copyright_name", class: "form-styling", placeholder: "File name" %>
+      <div class="file-upload">
+        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+        <div class="image-upload-wrap">
+          <%= f.file_field :image, name: "image", id: "copyright_image", class: "file-upload-input", onchange: "readURL(this);", accept: "image/*" %>
+          <!-- <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" /> -->
+          <div class="drag-text">
+            <h3>Drag and drop a file or select add Image</h3>
           </div>
         </div>
-
+        <div class="file-upload-content">
+          <img class="file-upload-image" src="#" alt="your image"/>
+          <div class="image-title-wrap">
+            <button type="button" onclick="removeUpload()" class="remove-image">Remove
+              <span class="image-title">Uploaded Image</span></button>
+          </div>
+        </div>
       </div>
-            <% end %>
-    <!-- </form> -->
-    <div class="icon icon-bag">
-      <span class="profile_img"><img class="user-cardimg-placeholder user-profile-image image-small"></span>
-    </div>
-    </div>
-
-
-
-    <div class="timeline-container" id="timeline-1">
-      <div class="timeline-header">
-        <h2 class="timeline-header__title">#markitmine</h2>
-        <h3 class="timeline-header__subtitle">#markitmine and make it yours. :)</h3>
+      <div class="btn-animate">
+        <%= f.hidden_field :user_id, name: "user_id", value: current_user.id %>
+        <%= f.submit "#markitmine" , :class => "btn-signin", :style => "background-color: #1059ff;" %>
       </div>
-      <div class="timeline">
-        <% if @copyrights.present? %>
-          <% @copyrights.order("created_at DESC").each do |copyright| %>
-            <div class="timeline-item" data-text="<%= copyright.name %>">
-              <div class="timeline__content">
-                <a href="<%= copyright.image.expiring_url %>">
-                  <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
-                </a>
-                <h4 class="timeline__content-title"><%= copyright.uploaded_date.strftime("%d/%m/%Y at %I:%M%p") if copyright.try(:uploaded_date).present?  %></h4>
-                <p class="timeline__content-desc">He was born in 1881 (probably in the spring) in Salonica, then an Ottoman city, now inGreece. His father Ali Riza, a customs official turned lumber merchant, died when Mustafawas still a boy. His mother Zubeyde,
-                  adevout and strong-willed woman, raised him and his sister.</p>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
+      <!-- </form> -->
     </div>
   </div>
 
-  <script type="text/javascript">
-    (function ($) {
-      $.fn.timeline = function () {
-        var selectors = {
-          id: $(this),
-          item: $(this).find(".timeline-item"),
-          activeClass: "timeline-item--active",
-          img: ".timeline__img"
-        };
-        selectors.item.eq(0).addClass(selectors.activeClass);
-        selectors.id.css("background-image", "url(" + selectors.item.first().find(selectors.img).attr("src") + ")");
-        var itemLength = selectors.item.length;
-        $(window).scroll(function () {
-          var max,
-            min;
-          var pos = $(this).scrollTop();
-          selectors.item.each(function (i) {
-            min = $(this).offset().top;
-            max = $(this).height() + $(this).offset().top;
-            var that = $(this);
-            if (i == itemLength - 2 && pos > min + $(this).height() / 2) {
-              selectors.item.removeClass(selectors.activeClass);
-              selectors.id.css("background-image", "url(" + selectors.item.last().find(selectors.img).attr("src") + ")");
-              selectors.item.last().addClass(selectors.activeClass);
-            } else if (pos <= max - 40 && pos >= min) {
-              selectors.id.css("background-image", "url(" + $(this).find(selectors.img).attr("src") + ")");
-              selectors.item.removeClass(selectors.activeClass);
-              $(this).addClass(selectors.activeClass);
-            }
-          });
-        });
-      };
-    })(jQuery);
+</div>
+<% end %>
+<!-- </form> -->
 
-    $("#timeline-1").timeline();
+<div class="timeline-container" id="timeline-1">
+<div class="timeline-header">
+  <h2 class="timeline-header__title">#markitmine</h2>
+  <h3 class="timeline-header__subtitle">#markitmine and make it yours. :)</h3>
+</div>
 
-    (function () {
-      var burger = document.querySelector('.burger-container'),
-        header = document.querySelector('.header');
+<!-- link that opens popup -->
+<div class="add-photos">
+  <a href="#test-form" class="popup-with-form"><%= image_tag("add.png", size:"40", alt: "Add your image", title: "Add your image") %></a>
+</div>
 
-      burger.onclick = function () {
-        header.classList.toggle('menu-opened');
-      }
+<div class="timeline">
+  <% @copyrights.where(user_id: [current_user.id]).order("id DESC").each do |copyright| %>
+    <div class="timeline-item" data-text="<%= copyright.name %>">
+      <div class="timeline__content">
+        <a href="<%= copyright.image.expiring_url %>" class="image-link">
+          <img class="timeline__img" src="<%= copyright.image.expiring_url %>"/>
+        </a>
+        <h2 class="timeline__content-title">&nbsp;</h2>
+        <p class="timeline__content-desc" style="min-height: 80px;"></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>
 
-      // Initialize popup as usual
-      $('.image-link').magnificPopup({
-        type: 'image',
-        mainClass: 'mfp-with-zoom', // this class is for CSS animation below
-        zoom: {
-          enabled: true, // By default it's false, so don't forget to enable it
-
-          duration: 300, // duration of the effect, in milliseconds
-          easing: 'ease-in-out', // CSS transition easing function
-
-          // The "opener" function should return the element from which popup will be zoomed in and to which popup will be scaled down By defailt it looks for an image tag:
-          opener: function (openerElement) {
-            // openerElement is the element on which popup was initialized, in this case its <a> tag you don't need to add "opener" option if this code matches your needs, it's defailt one.
-            return openerElement.is('img')
-              ? openerElement
-              : openerElement.find('img');
-          }
+<script type="text/javascript">
+(function ($) {
+  $.fn.timeline = function () {
+    var selectors = {
+      id: $(this),
+      item: $(this).find(".timeline-item"),
+      activeClass: "timeline-item--active",
+      img: ".timeline__img"
+    };
+    selectors.item.eq(0).addClass(selectors.activeClass);
+    selectors.id.css("background-image", "url(" + selectors.item.first().find(selectors.img).attr("src") + ")");
+    var itemLength = selectors.item.length;
+    $(window).scroll(function () {
+      var max,
+        min;
+      var pos = $(this).scrollTop();
+      selectors.item.each(function (i) {
+        min = $(this).offset().top;
+        max = $(this).height() + $(this).offset().top;
+        var that = $(this);
+        if (i == itemLength - 2 && pos > min + $(this).height() / 2) {
+          selectors.item.removeClass(selectors.activeClass);
+          selectors.id.css("background-image", "url(" + selectors.item.last().find(selectors.img).attr("src") + ")");
+          selectors.item.last().addClass(selectors.activeClass);
+        } else if (pos <= max - 40 && pos >= min) {
+          selectors.id.css("background-image", "url(" + $(this).find(selectors.img).attr("src") + ")");
+          selectors.item.removeClass(selectors.activeClass);
+          $(this).addClass(selectors.activeClass);
         }
-
       });
+    });
+  };
+})(jQuery);
 
-      $('.popup-with-form').magnificPopup({
-    		type: 'inline',
-    		preloader: false,
-    		focus: '#name',
+$("#timeline-1").timeline();
 
-    		// When elemened is focused, some mobile browsers in some cases zoom in
-    		// It looks not nice, so we disable it:
-    		callbacks: {
-    			beforeOpen: function() {
-    				if($(window).width() < 700) {
-    					this.st.focus = false;
-    				} else {
-    					this.st.focus = '#name';
-    				}
-    			}
-    		}
-    	});
-    }());
+(function () {
 
-    function readURL(input) {
+  // Initialize popup as usual
+  $('.image-link').magnificPopup({
+    type: 'image', mainClass: 'mfp-with-zoom', // this class is for CSS animation below
+    zoom: {
+      enabled: true, // By default it's false, so don't forget to enable it
+
+      duration: 300, // duration of the effect, in milliseconds
+      easing: 'ease-in-out', // CSS transition easing function
+
+      // The "opener" function should return the element from which popup will be zoomed in and to which popup will be scaled down By defailt it looks for an image tag:
+      opener: function (openerElement) {
+        // openerElement is the element on which popup was initialized, in this case its <a> tag you don't need to add "opener" option if this code matches your needs, it's defailt one.
+        return openerElement.is('img')
+          ? openerElement
+          : openerElement.find('img');
+      }
+    }
+
+  });
+
+  $('.popup-with-form').magnificPopup({
+    type: 'inline', preloader: false, focus: '#name',
+    removalDelay: 300,
+
+    // Class that is added to popup wrapper and background
+    // make it unique to apply your CSS animations just to this exact popup
+    mainClass: 'mfp-fade',
+
+    // When elemened is focused, some mobile browsers in some cases zoom in It looks not nice, so we disable it:
+    callbacks: {
+      beforeOpen: function () {
+        if ($(window).width() < 700) {
+          this.st.focus = false;
+        } else {
+          this.st.focus = '#name';
+        }
+      }
+    }
+  });
+}());
+
+function readURL(input) {
   if (input.files && input.files[0]) {
 
     var reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       $('.image-upload-wrap').hide();
 
       $('.file-upload-image').attr('src', e.target.result);
@@ -206,10 +172,9 @@ function removeUpload() {
   $('.image-upload-wrap').show();
 }
 $('.image-upload-wrap').bind('dragover', function () {
-		$('.image-upload-wrap').addClass('image-dropping');
-	});
-	$('.image-upload-wrap').bind('dragleave', function () {
-		$('.image-upload-wrap').removeClass('image-dropping');
+  $('.image-upload-wrap').addClass('image-dropping');
 });
-
-  </script>
+$('.image-upload-wrap').bind('dragleave', function () {
+  $('.image-upload-wrap').removeClass('image-dropping');
+});
+</script>

@@ -46,7 +46,7 @@ class CopyrightsController < ApplicationController
        end
      end
     else
-      redirect_back fallback_location: "/copyrights", notice: "Image already exists"
+      redirect_back fallback_location: "/copyrights", alert: "Image already exists"
     end
  end
 
