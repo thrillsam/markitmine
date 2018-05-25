@@ -16,17 +16,16 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
     params[:copyright] = params
     params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
     unless Copyright.where(tags: params[:copyright][:tags]).any?
-      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id], type_of_file: params[:type])
-      @copyright.uploaded_date = Time.now
+      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image', tags: params[:copyright][:tags])
+      @copyright.uploaded_date = Date.today
         if @copyright.save
           render template: '/api/v1/photos/upload_image.jbuilder', status: 200
         else
           format.json {render json: {message: 'something went wrong'}, status: 422}
         end
     else
-      render json: {message: 'Image already exists'}, status: 409
+      render json: {message: 'Image already exists'}, status: 422
     end
-
   end
 
   def all_images
