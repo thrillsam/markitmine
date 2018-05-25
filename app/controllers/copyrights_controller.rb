@@ -110,6 +110,6 @@ class CopyrightsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def copyright_params
-      params.require(:copyright).permit(:name, :image, :user_id, :date, :type_of_file, :uploaded_date, :photo_url, :uploaded_id, :likes_count, :tags)
+      params.require(:copyright).permit(:name, :image, :user_id, :date, :type_of_file, :uploaded_date, :photo_url, :uploaded_id, :likes_count, :tags, :source)
     end
 end

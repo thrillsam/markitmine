@@ -16,7 +16,7 @@ class Api::V1::PhotosController < MarkitmineApi::ApplicationController
     params[:copyright] = params
     params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
     unless Copyright.where(tags: params[:copyright][:tags]).any?
-      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image', tags: params[:copyright][:tags])
+      @copyright = Copyright.new(name: params[:name], image: params[:image], user_id: params[:user_id].to_i, type_of_file: 'image', tags: params[:copyright][:tags], source: "image")
       @copyright.uploaded_date = Date.today
         if @copyright.save
           render template: '/api/v1/photos/upload_image.jbuilder', status: 200
