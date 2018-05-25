@@ -36,17 +36,18 @@ class CopyrightsController < ApplicationController
     params[:copyright] = params
     params[:copyright][:tags] = Digest::SHA2.hexdigest(File.binread(params[:image].tempfile))
     unless Copyright.where(tags: params[:copyright][:tags]).any?
-      @copyright = Copyright.new(copyright_params)
-      respond_to do |format|
-        if @copyright.save
-          add_transaction(@copyright.tags)
-          format.html { redirect_to @copyright, notice: 'Copyright was successfully created.' }
-          format.json { render :show, status: :created, location: @copyright }
-        else
-          format.html { render :new }
-          format.json { render json: @copyright.errors, status: :unprocessable_entity }
-        end
-      end
+     @copyright = Copyright.new(copyright_params)
+     respond_to do |format|
+       if @copyright.save
+         add_transaction(@copyright.tags)
+         format.html { redirect_to copyrights_url, notice: 'Copyright was successfully created.' } 
+       else
+         format.html { render :new }
+         format.json { render json: @copyright.errors, status: :unprocessable_entity }
+       end
+     end
+    else
+      redirect_back fallback_location: "/copyrights", alert: "Image already exists"
     end
   end
 
