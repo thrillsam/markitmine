@@ -75,7 +75,7 @@ class CopyrightsController < ApplicationController
   end
 
   def get_access_token
-    url = URI("http://77b20c4a.ngrok.io/authorize_user")
+    url = URI("http://aedd5017.ngrok.io/authorize_user")
 
     http = Net::HTTP.new(url.host, url.port)
 
@@ -107,7 +107,7 @@ class CopyrightsController < ApplicationController
 
   def instagram_api
     # binding.pry
-    url = URI('http://77b20c4a.ngrok.io/instapictures')
+    url = URI('http://aedd5017.ngrok.io/instapictures')
     http = Net::HTTP.new(url.host, url.port)
     # http.use_ssl = true
     # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -121,14 +121,15 @@ class CopyrightsController < ApplicationController
     images = @response["data"]
     images.each do |image|
       puts image
-      binding.pry
       image_url = image["images"]["standard_resolution"]["url"]
       id      = image["caption"]["id"]
       source  = 'instagram'
       uploaded_date = Date.jd(image["caption"]["created_time"].to_i)
-      binding.pry
       puts image_url
-      a = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source) unless Copyright.find_by(uploaded_id: id).present?
+      unless Copyright.find_by(uploaded_id: id).present?
+        copyright = Copyright.create(uploaded_id: id, photo_url: image_url, user_id: current_user.id, source: source)
+        add_transaction(copyright.tags)
+      end
       # a.save
       # puts a.errors.messages
     end
