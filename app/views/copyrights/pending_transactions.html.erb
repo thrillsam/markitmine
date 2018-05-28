@@ -11,10 +11,10 @@
   <tbody>
     <% @data.each do |data| %>
      <tr>
-       <td width="30%"><%= data[:_id].to_s %></td>
-       <td width="50%"><%= data[:media].to_s %></td>
-       <td width="20%"><%= data[:fromAddress].to_s %></td>
-     </tr>
+       <td width="30%"><%= data["_id"].to_s %></td>
+       <td width="50%"><%= data["media"].to_s %></td>
+       <td width="20%"><%= data["fromAddress"].to_s %></td>
+     </tr
     <% end %>
   </tbody>
 </table>
